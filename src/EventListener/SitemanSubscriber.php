@@ -29,16 +29,20 @@ class SitemanSubscriber implements EventSubscriberInterface
     /**
      * @var EntityManagerInterface
      */
-    private $doctrine;
+    private $entityManager;
+
+
+    private $languagesForRoutes;
 
     /**
      * @param UrlGeneratorInterface $urlGenerator
      * @param EntityManagerInterface $doctrine
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $doctrine)
+    public function __construct(UrlGeneratorInterface $urlGenerator, $entityManager, $languagesForRoutes)
     {
         $this->urlGenerator = $urlGenerator;
-        $this->doctrine = $doctrine;
+        $this->entityManager = $entityManager;
+        $this->languagesForRoutes = $languagesForRoutes;
     }
 
     /**
@@ -79,29 +83,32 @@ class SitemanSubscriber implements EventSubscriberInterface
      */
     public function registerArticlesUrls(UrlContainerInterface $urls): void
     {
-        $articles = $this->doctrine->getRepository(Article::class)->findAll();
+        $articles = $this->entityManager->getRepository(Article::class)->findAll();
+
 
         foreach ($articles as $article) {
 
-            $urlToIndex =
-                new UrlConcrete($this->urlGenerator->generate('show', ['name' => $article->getName()],UrlGeneratorInterface::ABSOLUTE_URL),
-                    new \DateTime(),
-                    UrlConcrete::CHANGEFREQ_HOURLY,
-                    1
+            foreach ($this->languagesForRoutes as $language)
+            {
+                $urlToIndex =
+                    new UrlConcrete($this->urlGenerator->generate('show'.'.'.$language, ['name' => $article->getName()],UrlGeneratorInterface::ABSOLUTE_URL),
+                        new \DateTime(),
+                        UrlConcrete::CHANGEFREQ_HOURLY,
+                        1);
+                $urls->addUrl(
+                    $urlToIndex,
+                    $language
                 );
+            }
 
-            $urlToIndex = new GoogleImageUrlDecorator($urlToIndex);
-            $urlToIndex->addImage(
-                new GoogleImage(
-                    $this->urlGenerator->generate('news',[],UrlGeneratorInterface::ABSOLUTE_URL).
-                    $article->getImg()
-                )
-            );
+           // $urlToIndex = new GoogleImageUrlDecorator($urlToIndex);
+           // $urlToIndex->addImage(
+           //     new GoogleImage(
+           //         $this->urlGenerator->generate('news',[],UrlGeneratorInterface::ABSOLUTE_URL).
+           //         $article->getImg()
+           //     )
+           // );
 
-            $urls->addUrl(
-                $urlToIndex,
-                'default'
-            );
         }
     }
 }

@@ -8,9 +8,7 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Article;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,12 +18,12 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="news",
      *     options={"sitemap" = true})
-     * @param $em
+     * @param EntityManagerInterface $entityManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(EntityManagerInterface $em)
+    public function index($entityManager)
     {
-        $repository = $em->getRepository(Article::class);
+        $repository = $entityManager->getRepository(Article::class);
 
         $articles = $repository->findAll();
 
@@ -33,13 +31,19 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/news/{name}", name="show")
+     * @Route({
+     *     "en": "/news/{name}",
+     *     "bg": "/novini/{name}"
+     * }, name="show")
+     *
+     * @param $name
+     * @param EntityManagerInterface $entityManager
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($name, EntityManagerInterface $em)
+    public function show($name, $entityManager)
     {
         $name = str_replace('-', ' ', $name);
-        $repository = $em->getRepository(Article::class);
-
+        $repository = $entityManager->getRepository(Article::class);
         $article = $repository->findOneBy(['name' => $name]);
 
         return $this->render('news.html.twig', ['article' => $article]);

@@ -1,6 +1,4 @@
 presta_sitemap:
-  generator: presta_sitemap.generator_default
-  dumper: presta_sitemap.dumper_default
   defaults:
     priority: 1
     changefreq: daily
