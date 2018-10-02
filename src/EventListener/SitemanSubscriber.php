@@ -75,23 +75,27 @@ class SitemanSubscriber implements EventSubscriberInterface
      */
     public function populate(SitemapPopulateEvent $event): void
     {
-        $this->registerArticlesUrls($event->getUrlContainer());
+        $this->registerCategories($event->getUrlContainer());
+        $this->registerArticle($event->getUrlContainer());
     }
 
     /**
      * @param UrlContainerInterface $urls
+     *
+     * @example url = http://127.0.0.1:8000/{_locale}/{news|novini}/{category}
      */
-    public function registerArticlesUrls(UrlContainerInterface $urls): void
+    public function registerCategories(UrlContainerInterface $urls): void
     {
-        $articles = $this->entityManager->getRepository(Article::class)->findAll();
+        $categories = $this->entityManager->getRepository(Article::class)->findAllCategories();
 
-
-        foreach ($articles as $article) {
-
+        foreach ($categories as $category)
+        {
             foreach ($this->languagesForRoutes as $language)
             {
                 $urlToIndex =
-                    new UrlConcrete($this->urlGenerator->generate('show'.'.'.$language, ['name' => $article->getName()],UrlGeneratorInterface::ABSOLUTE_URL),
+                    new UrlConcrete($this->urlGenerator->generate('showAllbyCategory'.'.'.$language, ['category' => $category['category']],
+                        UrlGeneratorInterface::ABSOLUTE_URL),
+
                         new \DateTime(),
                         UrlConcrete::CHANGEFREQ_HOURLY,
                         1);
@@ -108,7 +112,34 @@ class SitemanSubscriber implements EventSubscriberInterface
            //         $article->getImg()
            //     )
            // );
-
         }
     }
+
+    /**
+     * @param UrlContainerInterface $urls
+     *
+     * @example url = http://127.0.0.1:8000/{_locale}/{news|novini}/{category}/{article_N}
+     */
+    public function registerArticle(UrlContainerInterface $urls): void
+   {
+       $articles = $this->entityManager->getRepository(Article::class)->findAll();
+
+       foreach ($articles as $article)
+       {
+           foreach ($this->languagesForRoutes as $language)
+           {
+               $urlToIndex =
+                   new UrlConcrete($this->urlGenerator->generate('show'.'.'.$language,
+                       ['category' => $article->getCategory(), 'name' => $article->getName()], UrlGeneratorInterface::ABSOLUTE_URL),
+               new \DateTime(),
+               UrlConcrete::CHANGEFREQ_HOURLY,
+               1);
+
+               $urls->addUrl(
+                   $urlToIndex,
+                   $language
+               );
+           }
+       }
+   }
 }

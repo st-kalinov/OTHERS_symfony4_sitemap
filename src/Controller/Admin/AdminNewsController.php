@@ -6,7 +6,7 @@
  * Time: 15:45
  */
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +18,7 @@ class AdminNewsController extends AbstractController
 {
 
     /**
-     * @Route("/admin/news/new")
+     * @Route("/admin/news/new", name="new_article")
      * @return Response
      */
     public function newNews($em)
@@ -29,10 +29,10 @@ class AdminNewsController extends AbstractController
             ->setCategory("Bulgaria")
             ->setContent("
             Laboris beef ribs fatback fugiat eiusmod jowl kielbasa alcatra dolore velit ea ball tip. Pariatur
-laboris sunt venison, et laborum dolore minim non meatball. Shankle eu flank aliqua shoulder,
-capicola biltong frankfurter boudin cupim officia. Exercitation fugiat consectetur ham. Adipisicing
-picanha shank et filet mignon pork belly ut ullamco. Irure velit turducken ground round doner incididunt
-occaecat lorem meatball prosciutto quis strip steak.
+            laboris sunt venison, et laborum dolore minim non meatball. Shankle eu flank aliqua shoulder,
+            capicola biltong frankfurter boudin cupim officia. Exercitation fugiat consectetur ham. Adipisicing
+            picanha shank et filet mignon pork belly ut ullamco. Irure velit turducken ground round doner incididunt
+            occaecat lorem meatball prosciutto quis strip steak.
             ")
             ->setImg("img3.jpg");
 

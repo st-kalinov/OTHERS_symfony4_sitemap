@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <section style="display:flex; justify-content: space-between; width: 80%; margin: auto">
+        {% for article in articles %}
+            <article style="width: 20%">
+                <h3>{{ article.name }}</h3>
+                <p><span style="color: blue">Avtor:</span>{{ article.author }}</p>
+                <span>Kategoriq:</span><a href="{{ path('showAllbyCategory', {category: article.category }) }}"> {{ article.category }}</a>
+                <p>{{ article.content |slice(0, 50) ~ '...' }}</p>
+                <a href="{{ path('show', {name: article.name|replace({' ': '-'}), category: article.category }) }}">ОЩЕ</a>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock %}

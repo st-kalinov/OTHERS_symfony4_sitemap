@@ -16,36 +16,72 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="news",
+     * @Route("/", name="showAll",
      *     options={"sitemap" = true})
      * @param EntityManagerInterface $entityManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index($entityManager)
+    public function showAll($entityManager)
     {
-        $repository = $entityManager->getRepository(Article::class);
-
-        $articles = $repository->findAll();
+        $articles = $entityManager
+            ->getRepository(Article::class)
+            ->findAll();
 
         return $this->render('homepage.html.twig', ['articles' => $articles]);
     }
 
     /**
      * @Route({
-     *     "en": "/news/{name}",
-     *     "bg": "/novini/{name}"
-     * }, name="show")
+     *   "en": "/news/{category}",
+     *   "bg": "/novini/{category}"
+     *    },
+     *      name="showAllbyCategory")
      *
-     * @param $name
      * @param EntityManagerInterface $entityManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($name, $entityManager)
+   public function showAllbyCategory($category, $entityManager)
+   {
+       $articles  = $entityManager
+           ->getRepository(Article::class)
+           ->findBy(['category' => $category]);
+
+        return $this->render('articlesByCategory.html.twig', ['articles' => $articles]);
+   }
+
+    /**
+     * @Route({
+     *     "en": "/news/{category}/{name}",
+     *     "bg": "/novini/{category}/{name}"
+     * }, name="show")
+     * @param EntityManagerInterface $entityManager
+     * @param $name
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function show($name, $category, $entityManager)
     {
         $name = str_replace('-', ' ', $name);
-        $repository = $entityManager->getRepository(Article::class);
-        $article = $repository->findOneBy(['name' => $name]);
 
-        return $this->render('news.html.twig', ['article' => $article]);
+        $article = $entityManager
+            ->getRepository(Article::class)
+            ->findOneBy(['name' => $name, 'category' => $category]);
+
+        return $this->render('article.html.twig', ['article' => $article]);
     }
+
+    /**
+     * @Route("/test", name="test")
+     * @param EntityManagerInterface $entityManager
+     */
+    public function test($entityManager)
+    {
+        $categories = $entityManager
+            ->getRepository(Article::class)
+            ->findAllCategories();
+
+        dd($categories);
+    }
+
+
 }

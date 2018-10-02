@@ -14,9 +14,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $entityManager;
+    public function __construct(RegistryInterface $registry, $entityManager)
     {
         parent::__construct($registry, Article::class);
+        $this->entityManager = $entityManager;
+    }
+
+    public function findAllCategories()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.category')
+            ->distinct(true)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
