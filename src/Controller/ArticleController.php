@@ -9,9 +9,12 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Service\ServiceInterface\EncodePasswordInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class ArticleController extends AbstractController
 {
@@ -70,18 +73,29 @@ class ArticleController extends AbstractController
         return $this->render('article.html.twig', ['article' => $article]);
     }
 
+   // /**
+   //  * @Route("/test", name="test")
+   //  * @param EntityManagerInterface $entityManager
+   //  */
+   // public function test($entityManager)
+   // {
+   //     $categories = $entityManager
+   //         ->getRepository(Article::class)
+   //         ->findAllCategories();
+//
+   // }
+
     /**
-     * @Route("/test", name="test")
-     * @param EntityManagerInterface $entityManager
+     * @Route("/testEncode", name="test_encode")
+     * @param EncodePasswordInterface $encodePasswords
+     * @param RouterInterface $router
+     * @return RedirectResponse
      */
-    public function test($entityManager)
+    public function testEncode(EncodePasswordInterface $encodePasswords, RouterInterface $router)
     {
-        $categories = $entityManager
-            ->getRepository(Article::class)
-            ->findAllCategories();
+        $encodePasswords->setEncodedPasswords();
 
-        dd($categories);
+        return new RedirectResponse($router->generate('showAll'));
+
     }
-
-
 }
