@@ -2,31 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>http://127.0.0.1:8000/bg/novini/Bulgaria</loc>
-        <lastmod>2018-10-02T14:07:33+02:00</lastmod>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>http://127.0.0.1:8000/bg/novini/World</loc>
-        <lastmod>2018-10-02T14:07:33+02:00</lastmod>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>http://127.0.0.1:8000/bg/novini/Bulgaria/Novina%201</loc>
-        <lastmod>2018-10-02T14:07:33+02:00</lastmod>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>http://127.0.0.1:8000/bg/novini/Bulgaria/Novina%202</loc>
-        <lastmod>2018-10-02T14:07:33+02:00</lastmod>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>http://127.0.0.1:8000/bg/novini/World/Novina%203</loc>
-        <lastmod>2018-10-02T14:07:33+02:00</lastmod>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/admin/news/new</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/testEncode</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/test</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/test1</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/test2</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/test3</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/bg/test10</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1:8000/</loc>
+        <lastmod>2018-10-05T16:21:14+02:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>

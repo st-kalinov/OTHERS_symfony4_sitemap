@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Service\EncodePasswordService;
+use App\Service\EncodePassword;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,13 +41,7 @@ class AdminController extends AbstractController
      */
     public function index(SessionInterface $session)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $username = $session->get('_security.last_username');
-
         return $this->render('admin/admin_index.html.twig', ['username' => $username]);
     }
-
-
-
 }

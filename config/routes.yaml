@@ -1,11 +1,15 @@
-presta_sitemap:
-  resource: "@PrestaSitemapBundle/Resources/config/routing.yml"
-homepage:
-  path: /
-  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
-  defaults:
-    path: /en
-    permanent: true
+#homepage.en:
+#  path: /
+#  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+#  defaults:
+#    path: /en
+#    permanent: true
+#homepage.bg:
+#  path: /
+#  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+#  defaults:
+#    path: /bg
+#    permanent: true
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index

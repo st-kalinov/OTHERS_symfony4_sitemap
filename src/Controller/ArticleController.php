@@ -19,13 +19,14 @@ use Symfony\Component\Routing\RouterInterface;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="showAll",
-     *     options={"sitemap" = true})
-     * @param EntityManagerInterface $entityManager
+     * @Route("/", name="showAll")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAll($entityManager)
+    public function showAll()
     {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
         $articles = $entityManager
             ->getRepository(Article::class)
             ->findAll();

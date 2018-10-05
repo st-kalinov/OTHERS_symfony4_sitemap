@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class ArticleRepository extends ServiceEntityRepository
 {
     private $entityManager;
-    public function __construct(RegistryInterface $registry, $entityManager)
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Article::class);
         $this->entityManager = $entityManager;

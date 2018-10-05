@@ -9,14 +9,17 @@
 namespace App\EventListener;
 
 use App\Entity\Article;
+use App\Service\ServiceInterface\RouteSortInteface;
 use Doctrine\ORM\EntityManagerInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
+use Presta\SitemapBundle\Exception\Exception;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Presta\SitemapBundle\Sitemap\Url\GoogleImage;
 use Presta\SitemapBundle\Sitemap\Url\GoogleImageUrlDecorator;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class SitemanSubscriber implements EventSubscriberInterface
 {
@@ -33,16 +36,24 @@ class SitemanSubscriber implements EventSubscriberInterface
 
 
     private $languagesForRoutes;
+    /**
+     * @var RouterInterface
+     */
+    private $routeSorter;
+
 
     /**
+     * SitemanSubscriber constructor.
+     * @param array $languages
      * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $doctrine
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(UrlGeneratorInterface $urlGenerator, $entityManager, $languagesForRoutes)
+    public function __construct(array $languages, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $entityManager, RouteSortInteface $routeSorter)
     {
         $this->urlGenerator = $urlGenerator;
         $this->entityManager = $entityManager;
-        $this->languagesForRoutes = $languagesForRoutes;
+        $this->languagesForRoutes = $languages;
+        $this->routeSorter = $routeSorter;
     }
 
     /**
@@ -70,6 +81,7 @@ class SitemanSubscriber implements EventSubscriberInterface
         ];
     }
 
+
     /**
      * @param SitemapPopulateEvent $event
      */
@@ -77,6 +89,7 @@ class SitemanSubscriber implements EventSubscriberInterface
     {
         $this->registerCategories($event->getUrlContainer());
         $this->registerArticle($event->getUrlContainer());
+        $this->registerStaticRoutes($event->getUrlContainer());
     }
 
     /**
@@ -112,6 +125,28 @@ class SitemanSubscriber implements EventSubscriberInterface
            //         $article->getImg()
            //     )
            // );
+        }
+    }
+
+    public function registerStaticRoutes(UrlContainerInterface $urls): void
+    {
+        $routes = $this->routeSorter->getAllStaticRoutesForSitemap();
+        if(count($routes) === 0)
+        {
+            throw new Exception("No static routes available");
+        }
+
+        foreach ($routes as $name => $path)
+        {
+            $urlToIndex = new UrlConcrete($this->urlGenerator->generate($name, [], UrlGeneratorInterface::ABSOLUTE_URL),
+                new \DateTime(),
+                UrlConcrete::CHANGEFREQ_HOURLY,
+                1);
+
+            $urls->addUrl(
+                $urlToIndex,
+                substr($name, -2)
+            );
         }
     }
 
