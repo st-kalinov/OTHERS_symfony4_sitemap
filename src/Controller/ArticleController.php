@@ -44,8 +44,9 @@ class ArticleController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-   public function showAllbyCategory($category, $entityManager)
+   public function showAllbyCategory($category)
    {
+       $entityManager = $this->getDoctrine()->getManager();
        $articles  = $entityManager
            ->getRepository(Article::class)
            ->findBy(['category' => $category]);
@@ -63,8 +64,9 @@ class ArticleController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show($name, $category, $entityManager)
+    public function show($name, $category)
     {
+        $entityManager = $this->getDoctrine()->getManager();
         $name = str_replace('-', ' ', $name);
 
         $article = $entityManager

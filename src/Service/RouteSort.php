@@ -10,7 +10,6 @@ namespace App\Service;
 
 
 use App\Service\ServiceInterface\RouteSortInteface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 class RouteSort implements RouteSortInteface
@@ -49,10 +48,10 @@ class RouteSort implements RouteSortInteface
      */
     public function getAllStaticRoutesForSitemap(): array
     {
-        $routeObjects = $this->getRoutesForSitemap();
+        $allRoutesForSitemap = $this->getRoutesForSitemap();
         $routes = [];
 
-        foreach($routeObjects as $routeName => $routePath)
+        foreach($allRoutesForSitemap as $routeName => $routePath)
         {
             if(strpos($routePath, '{') === false)
             {
